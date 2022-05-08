@@ -1,0 +1,661 @@
+\documentclass[10pt]{article} 
+
+\usepackage{fullpage}
+\usepackage{bookmark}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{hyperref} % for the URL
+\usepackage[shortlabels]{enumitem}
+\usepackage{mathtools}
+\usepackage[most]{tcolorbox}
+\usepackage[amsmath,standard,thmmarks]{ntheorem} 
+\usepackage{physics}
+\usepackage{pst-tree} % for the trees
+\usepackage{verbatim} % for comments, for version control
+\usepackage{tabu}
+\usepackage{tikz}
+\usepackage{float}
+
+\lstnewenvironment{python}{
+\lstset{frame=tb,
+language=Python,
+aboveskip=3mm,
+belowskip=3mm,
+showstringspaces=false,
+columns=flexible,
+basicstyle={\small\ttfamily},
+numbers=none,
+numberstyle=\tiny\color{Green},
+keywordstyle=\color{Violet},
+commentstyle=\color{Gray},
+stringstyle=\color{Brown},
+breaklines=true,
+breakatwhitespace=true,
+tabsize=2}
+}
+{}
+
+\lstnewenvironment{cpp}{
+\lstset{
+backgroundcolor=\color{white!90!NavyBlue},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}; should come as last argument
+basicstyle={\scriptsize\ttfamily},        % the size of the fonts that are used for the code
+breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+breaklines=true,                 % sets automatic line breaking
+captionpos=b,                    % sets the caption-position to bottom
+commentstyle=\color{Gray},    % comment style
+deletekeywords={...},            % if you want to delete keywords from the given language
+escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+% firstnumber=1000,                % start line enumeration with line 1000
+frame=single,	                   % adds a frame around the code
+keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+keywordstyle=\color{Cyan},       % keyword style
+language=c++,                 % the language of the code
+morekeywords={*,...},            % if you want to add more keywords to the set
+% numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+% numbersep=5pt,                   % how far the line-numbers are from the code
+% numberstyle=\tiny\color{Green}, % the style that is used for the line-numbers
+rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+showstringspaces=false,          % underline spaces within strings only
+showtabs=false,                  % show tabs within strings adding particular underscores
+stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+stringstyle=\color{GoldenRod},     % string literal style
+tabsize=2,	                   % sets default tabsize to 2 spaces
+title=\lstname}                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+{}
+
+% floor, ceiling, set
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+\DeclarePairedDelimiter{\set}{\lbrace}{\rbrace}
+\DeclarePairedDelimiter{\iprod}{\langle}{\rangle}
+
+\DeclareMathOperator{\Int}{int}
+\DeclareMathOperator{\mean}{mean}
+
+% commonly used sets
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\su}[2]{\sum_{#1}^{#2}}
+\renewcommand{\P}{\mathbb{P}}
+
+\newcommand{\sset}{\subseteq}
+
+\theoremstyle{break}
+\theorembodyfont{\upshape}
+
+\newtheorem{thm}{Theorem}[subsection]
+\tcolorboxenvironment{thm}{
+enhanced jigsaw,
+colframe=Dandelion,
+colback=White!90!Dandelion,
+drop fuzzy shadow east,
+rightrule=2mm,
+sharp corners,
+before skip=10pt,after skip=10pt
+}
+
+\newtheorem{cor}{Corollary}[thm]
+\tcolorboxenvironment{cor}{
+boxrule=0pt,
+boxsep=0pt,
+colback={White!90!RoyalPurple},
+enhanced jigsaw,
+borderline west={2pt}{0pt}{RoyalPurple},
+sharp corners,
+before skip=10pt,
+after skip=10pt,
+breakable
+}
+
+\newtheorem{lem}[thm]{Lemma}
+\tcolorboxenvironment{lem}{
+enhanced jigsaw,
+colframe=Red,
+colback={White!95!Red},
+rightrule=2mm,
+sharp corners,
+before skip=10pt,after skip=10pt
+}
+
+\newtheorem{ex}[thm]{Example}
+\tcolorboxenvironment{ex}{% from ntheorem
+blanker,left=5mm,
+sharp corners,
+before skip=10pt,after skip=10pt,
+borderline west={2pt}{0pt}{Gray}
+}
+
+\newtheorem*{pf}{Proof}
+\tcolorboxenvironment{pf}{% from ntheorem
+breakable,blanker,left=5mm,
+sharp corners,
+before skip=10pt,after skip=10pt,
+borderline west={2pt}{0pt}{NavyBlue!80!white}
+}
+
+\newtheorem{defn}{Definition}[subsection]
+\tcolorboxenvironment{defn}{
+enhanced jigsaw,
+colframe=Cerulean,
+colback=White!90!Cerulean,
+drop fuzzy shadow east,
+rightrule=2mm,
+sharp corners,
+before skip=10pt,after skip=10pt
+}
+
+\newtheorem{prop}[thm]{Proposition}
+\tcolorboxenvironment{prop}{
+boxrule=0pt,
+boxsep=0pt,
+colback={White!90!Green},
+enhanced jigsaw,
+borderline west={2pt}{0pt}{Green},
+sharp corners,
+before skip=10pt,
+after skip=10pt,
+breakable
+}
+
+\setlength\parindent{0pt}
+\setlength{\parskip}{2pt}
+
+
+\begin{document}
+\let\ref\Cref
+
+\title{\bf{cs476}}
+\date{\today}
+\author{Austin Xia}
+
+\maketitle
+\newpage
+\tableofcontents
+\listoffigures
+\listoftables
+\newpage
+\section{Course Information}
+grade: 4 assignments
+%lec2
+\subsection{genral definition of financial deriustive contract}
+A financial option/derivative is a financial contract at time t=0,
+The value of the contract at future expiry T is determined by the market price of 
+underlying asset at T
+
+
+$S_t$ is underling price at time t, it is a stochoastic process.
+
+Knowing the future value of contract in relation to the underlying price allows it to be used as an insurance
+
+Holder bought insurance, how much should holder pay today
+
+Writer bought risk (uncertainty) how much should the writer recieve
+
+premium $V_0$
+
+\subsection{payoff function}
+
+$V_T=payoff(S_T)$
+
+\begin{defn}[European option]
+call option: right to buy at a preset price K at time T
+put option: right to sell at a preset price L at time T
+\end{defn}
+
+
+\begin{defn}[American option]
+The right can be exerciesed any time from now to exprity T
+\end{defn}
+
+\begin{defn}[holder]
+    buyer of the option, enters a long position, +
+\end{defn}
+
+\begin{defn}[Writer]
+    seller of the option, enters a short position, -
+
+    eg. -100 share means sell 100 share of balabala
+\end{defn}
+
+let V(S(t),t) or $V_t$ denote the option value at time t.
+recall S(t) is price of item at time t
+
+
+question: is the first argument a function or a value
+
+when know at T, $payoff(S_T)$
+
+question: what is fair value $V_0$ of the option today 
+
+What are payoff functions $$V_T=payoff(S_T)=max(S_T-K, 0)$$
+
+there can be many payoff functions 
+
+
+\subsection{one perioad binomial, fair value of option, arbitrage, put-call parity}
+
+consider an 1-perioad binomial case 
+Auume: T=1 and up probablity is p=0.1
+20->22/18
+
+consider a call with K=21
+
+then option value today is 
+$$.1*1+.9*0=.1$$
+
+side 
+
+cash account continously compounds at risk free rate 
+
+borrowing moeny from a bank is selling a bond 
+
+depositing money to bank == buying a bond 
+
+let a bond has value $\beta(t)$ at time t,
+$$\frac{d\beta(t)}{\beta(t)}=rdt$$
+
+solving this ODE by integrating both sides,
+$$log(\beta(T))-log(\beta(t))=r(T-t)$$
+
+Discounting: 1 year ago, 
+$$\beta(T)=1 \rightarrow \beta(t)=e^{-r(T-t)}$$
+
+Discounting: 1 year ago, 
+$$\beta(t)=1 \rightarrow \beta(T)=e^{r(T-t)}$$
+
+An aaritage is trading opportunity to make a no-risk
+profit greater than that of a bank deposit 
+which earns interest $r \geq 0$ 
+
+Example: buy one share of stock and borrow 100 (sell bonds)
+$$H_0=1*S_0-100\text{ or } H_0=\{S_0, -100\}$$
+the value at time t:
+$$H_t=S_t-100e^{rt}$$
+
+Mathematical characterization of an Arbitrage Strategy 
+
+A profolio with initail $H_0=0$ but $H^T>0$ is arbitrage
+
+question: interest rate?
+
+\subsubsection{Put and Call Parity} 
+
+Assume stock $S_t$ does not pay divident, interest rate $r\geq 0$,
+no arbitrage. Then at any time $t\in(0,T)$ European call $C_t$ 
+and put $P_t$, with same stike K and expiry T, on the same underlying,
+satisfies 
+$$C_t = P_t + S_t - Ke^{-r(T-t)}$$
+
+$$C_t - P_t = S_T - K$$ 
+and put them all back in time $T\rightarrow t$
+
+\subsection{1-period in binomial model}
+\begin{itemize}
+    \item option replication and heging 
+    \item computing option fair value 
+    \item risk neutrual valuation
+\end{itemize}
+
+hedge the uncertainty
+
+\subsubsection{Pricing by Replication}
+
+qustion what is $V_t$
+Assume:
+\begin{itemize}
+    \item $S_t>0$
+    \item no arbitrage 
+    \item length of time interval $\delta t>0$
+\end{itemize}
+stock: $S_t$ $S^u_{t+1}=uS_t$ $S^d_{t+1}=dS_t$ 
+
+bond: $e^{-rt}\rightarrow 1$
+
+option: $V_t$ $V^u_{t+1}=uV_t$ $V^d_{t+1}=dV_t$ 
+
+
+At t, construct portfolio$\{\delta_tS_t, n_t\beta_t\}$ so that:
+
+Buy $\eta$ bond and $\delta_t$ stock
+
+$$\eta_t+uS_t\delta_t=V^n_{t+1}$$
+$$\eta_t+dS_t\delta_t=V^d_{t+1}$$
+n is bond, $\delta_t$ is amount of stock
+
+Note solution of $\eta, \delta$ is unique 
+
+No arbitrage, then 
+$$V_t=\delta_tS_t+\eta_te^{-rt}$$
+ in other words 
+ $$\{V_t, -\delta_tS_t\}$$ is risk free
+
+I can construct combination of stock and bond st 
+the value of the stock+value of bond equals value of option at time t+1
+
+recall $S_T^u = 22 =1.1S_0$
+$S_T^d = 18 =0.9S_0$
+
+r=0 K=21
+
+we get 
+$$22\delta+1\eta=1$$
+$$18\delta+1\eta=0$$
+
+$\delta=\frac{C^u_T-C^d_T}{(u-d)S_0}~~~\eta=-4.5$ (sell bond borrow cash)
+
+\subsubsection{risk neutral valuation}
+note: no arbitrage assumge implies $d\leq e^{rt}\leq u$
+
+consider 
+$$\psi^u+\psi^d=e^{-rt}$$
+$$uS_t\psi^u+dS_t\psi^d=S_t$$
+
+the unique solution is $\psi^u=e^{-rt}q^*$, $\psi^d=e^{-rt}(1-q^*)$
+$$q*=\frac{e^{rt}-d}{u-d}~~q^*\in(0,1)$$
+
+we can then treat q as a probability
+
+we get 
+$$S_t=e^{-rt}(q^*uS_t+(1-q^*)dS_t)=e^{-rt}E^Q(S_{t+1})$$
+
+Where $E^Q$ uses $q^*$ as probablity
+
+
+Let $\{\delta_tS_t, \eta_t\beta_t\}$ be replicating portfolio
+
+by writing $\beta_t$ as $(q^*\centerdot 1+(1-q^*)\centerdot 1)$
+
+
+
+$$V_t=E^Q(V_{t+1})$$
+
+risk neutral valuation:
+$$\beta_t=e^{-rt}\beta_{t+1}$$
+$$S_t=e^{-rt}E^Q(S_{t+1})$$
+$$V_t=e^{-rt}E^Q(V_{t+1})$$
+
+where $V_t$ is derivative on S.
+
+for the example 
+
+risk neutrual probability is 
+$$q^*=\frac{e^{rt}-d}{u-d}=\frac{1-0.9}{1.1-0.9}$$
+
+\section{logarithmic return}
+$$\Delta X_n=log(\frac{S_{n+1}}{S_n})~~~X_n=log(S_n) \Delta X_n=X_{n+1}-X_n$$
+
+simple return $\frac{S_{n+1}}{S_n} \approx \Delta X_n$
+
+so $\Delta X_n$ is $\Delta h$ with p and $-\Delta h$ with 1-p
+
+\section{Discrete random walk and its limit}
+price $S_0\rightarrow uS_0$
+
+log price $X_0\rightarrow x_0+h$, both with probablity p
+
+Properities of descrete random walk:
+\begin{itemize}
+    \item $\Delta X)n$ has identical independent distribution for any n
+
+    \item moments:
+    
+    $E(\Delta X_n)=p\Delta h-(1-p)\Delta h=(2p-1)\Delta h=\alpha_0$
+
+    $E(\Delta X^2_n)=p(\Delta h)^2+(1-p)(\Delta h)^2 = (\Delta h)^2$
+
+    $var(\Delta X_n)=\Delta h^2-(2p-1)^2(\Delta h)^2$
+\end{itemize}
+
+$prob\left(\frac{\su{N-1}{n=0}\Delta X_n-N\alpha_0}{\sigma_0
+\sqrt{N}}\leq x\right)\rightarrow F_{normal}(x)$
+
+in finance, standard deviation is volatility $\sigma$, or variance $\sigma^2$
+
+the expected log return in an interval of $\Delta t$ is $\alpha \Delta$, 
+variance $\sigma^2 \Delta t$
+
+so when $\sigma \alpha$ is given, we chan choose $p,\Delta h$ to satisfy $E(\Delta X_n)$ and $var(\Delta X_n)$
+
+one frequent choice:
+$$u=e^{\sigma\sqrt{\Delta t}}$$
+$$d=e^{-\sigma\sqrt{\Delta t}}$$
+$$p=1/2+\frac{1\alpha}{2\sigma}\sqrt{\Delta t}$$
+
+note: \begin{itemize}
+    \item option value does not depend on $\alpha$, it depends only on volatility 
+    \item CRR leads to a nondrifting tree
+    \item there are many differnet choices for (u,d,p) since there are 2 equation and 3 parameters 
+    \item one can also set up no-arbitrage lattice(set p) for which the expected rate of return is r
+ 
+\end{itemize}
+
+an algorithm
+\begin{itemize}
+    \item choose u d p st. $log(u)=\Delta h=\sigma\sqrt{\Delta t}$
+    $\Delta t$ small enough st $$u=e^{-\sigma\sqrt{\Delta t}}\leq e^{r\Delta t}\leq e^{\sigma\sqrt{\Delta t}}$$
+    \item construct lattice of prices e.g. $u=e^{\sigma\Delta t}$
+    $$S^{n+1}_{j+1}=... S^{n+1}_{j}=...$$
+    \item at exprity T, value of option is $V^N_j=payoff(S_j^N)$
+\end{itemize}
+
+\section{Divident}
+at t=0, the underlying pays divident D
+$D=\rho S(t^-_d)$ at $t=t_d$, $0\leq t_d\leq T$
+
+$$S(t_d^+)=S(t_d^-)-D$$
+
+option is divident protected
+$$V(S(t),t)\equiv V(t)\text{is continous funciton of t}$$ 
+$$V(S(T_d^d),t_d^-)=V(S(T_d^+),t_d^+)=V(S(T_d^-)-D,t_d^+)$$
+
+\subsection{brownian motion}
+    $$dX=\alpha dt+\sigma dZ$$
+    $\alpha dt$ is drift term, $\sigma$ is volatility $dZ$ is random term 
+    $$dZ=\phi \sqrt{dt}~~\phi\sim N(0,1) $$
+
+    $$E[dx]=\alpha dt$$
+    $$Var[dx]=E[dX-E[dx]]^2=\sigma^2 dt$$
+
+    discrete model: x has p possibility to go upward, q to go downward
+
+    $$E[\Delta x]=(p-q)\Delta h$$
+    $$E[\Delta X]^2 = \Delta h^2$$
+    $$VAR[\Delta X]=4pq(\Delta h)^2$$
+    $$E[X_n-X_0] = n(p-q)\Delta h=\frac{t}{\Delta t}(p-q)\Delta h$$
+    $$VAR[X_n-X_0]=n4pq(\Delta h)^2$$
+
+    if we take $\Delta h=\sigma \sqrt{\Delta t}$ and $p-q=\frac{\alpha}{\sigma}\sqrt{\Delta t}$
+    $$p,q=0.5[1\pm \frac{\alpha}{\sigma}\sqrt{\Delta t}]$$
+    $$E[X_n-X_0]=\alpha t$$
+    $$Var[X_n-X_0]=t\sigma^2(1-\frac{\alpha^2}{\sigma^2}\Delta t)$$
+
+\subsection{Standard Brownian motion}
+    p=0.5 $\Delta X=\sqrt{\Delta T}$
+    A standard Brownian motion $Z_t$ has 
+    \begin{itemize}
+        \item Z(0)=0
+        \item $Z(t+\Delta t)-Z(t)\sim N(0,\Delta t)$
+        \item $Z(t_2)-Z(t_1)$ is independent
+    \end{itemize}
+    Ito's Process 
+
+    $dX_t=a\dotproduct dt+b\dotproduct dZ_t$
+    a deterministic trend + random flucturation of standard Brownian
+
+    Black Scholes Model:
+    $$\frac{dS_t}{S_t}=\mu\dotproduct dt+\sigma\dotproduct dZ_t$$
+
+    important propperties of $Z_t$, let $\psi_t\sim N(0,1)$
+    $$dZ_t=\psi_t\sqrt{dt}~~~(dZ_t)^2=dt$$
+
+    note variance of $\Delta Z_t^2$ goes to zero quadratically
+\subsection{Geometric Brownian motion}
+\subsection{Ito's lemma}
+
+\section{}
+\subsection{risk neutral pricing}
+    $$E^Q(\frac{S(t_{n+1})}{S(t_n)})=e^{\Delta t}=1+r\Delta t+O((\Delta t)^2)$$
+    this implies: under risk neutral probability,
+    $$\frac{dS_t}{S_t}=rdt+\sigma dZ_t^Q$$
+    $Z_t^Q$ is a standard Brwonain
+
+    Under continous model, risk neutral pricing becomes 
+    $$V(S,t)=e^{-r(T-t)}E^Q(payoff(S_T))$$
+    where $E^Q()$ assumes underlying asset price follows  
+    $$\frac{dS_t}{S_t}=rdt+\sigma dZ_t^Q$$
+\subsection{MC for pricing European option}
+    $$V(S_0,0)\approx \frac{1}{M}\su{M}{j=1}(e^{-rt}payoff((S_T)^j))$$
+
+    recall we can generate $S_t=S_0e^{(r-0.5\sigma^2)t+\sigma Z_t}$
+
+    we can generate M $S_T$ accordingly
+\subsection{MC for pricing European path dependent option}
+    \begin{defn}[Barrier Option]
+        a barrier option come/ceases to exist when a barrier has been crossed e.g.(up/down, in/out)
+    \end{defn}
+    \begin{defn}[Up-Out]
+        if $S_t$ crosses a up-barrier $S_u$, option pays nothing
+
+        otherwise, standard payoff
+    \end{defn}
+
+    \begin{defn}
+        Asian call payoff $$max(0,\frac{1}{T}\int^T_0S_tdt -K)$$
+    \end{defn}
+
+    we need to make this discrete 
+    $$A_n=\frac{1}{n}((n-1)A_{n-1}+S(t_n))=\frac{n-1}{n}A_{n-1}+\frac{1}{n}S(t_n)$$
+
+    If we use M simulations, sampling error is $O(\frac{1}{\sqrt{M}})$ becasue CLT
+  
+    CI:$$\hat\sigma=\left[ \frac{\su{M}{j=1}(Y^j-V^M)^2}{M-1} \right]^{\frac{1}{2}}$$
+
+    approcimating,$$V^M-V^0\approx N(0,\frac{\hat\sigma}{\sqrt{M}})$$
+
+    where $V_0=E(Y)$
+
+    $$v_0\in \left[ V^M-1.96\hat\sigma/\sqrt{M},V^M+1.96\hat\sigma/\sqrt{M} \right]$$
+
+    \section{}
+    \subsection{Euler Method and Time Stepping}
+        $$\frac{dS_t}{S_t}=rdt+\sigma(S_t,t)dZ_t$$
+        integrate, we get (approximately)
+        $$S_{n+1}=S_n+S_n(r\Delta t+\sigma(S_n, t_n)\sqrt{\Delta t}\phi_n)~~~\phi_n\sim N(0,1)$$
+    \subsection{Error in Eular Method}
+        the above equation comes from approximating integral from aboveabove equation
+        $$\abs{E(S(T))-E(S_T^{\Delta t})}\leq C\Delta t$$
+        S(T) is a price realization to 
+        $$\frac{dS_t}{S_t}=rdt+\sigma(S_t,t)dZ_t$$
+
+        $S_T^{\Delta t}$ is approximation with time step $\Delta t$
+        $$4.8.2 \text{  course note}$$
+
+        \emph{Balance Time Stepping Error and Sampling Error} 
+
+        Assume a approximation has time stepping accuracy $\Delta t$
+        Sample error is (M simulation) $O(\frac{1}{\sqrt{M}})$
+
+        if we want total error = $O(\Delta t)$, we need $$M\approx \frac{C}{(\Delta t)^2}$$
+
+
+        complexity = O(timestep * samples) 
+
+        $=O((\frac{T}{\Delta t})M)$
+
+        $=O(\frac{M}{\Delta t})$
+
+        $=O(\frac{1}{(\Delta t)^3})$
+
+        $$error=O(\frac{1}{complexity^{\frac{1}{3}}})$$
+
+        thus to reduce error by factor of 10, we increase computation by $10^3$
+    \subsection{Dynamic Trading Performance Analysis via MC simulation}
+
+        in addition to back testing, we can perform hedging analysis based on
+        a stochastic model
+
+        Goal:\begin{itemize}
+            \item How good is hedging strategy 
+            \item how risky
+            \item how we measure the risk
+        \end{itemize}
+\section{}
+\subsection{dynamic hedging analysis}
+    number of units in underlying is $$\delta^n_j=\frac{V^{n+1}_{j+1}-V_j^{n+1}}{(u-d)S_j}
+    \approx \frac{dV}{dS}(S_j^n, t_n)$$
+
+    initially, we have $$B_0=V_0-\delta_0S_0$$
+
+    $$\text{protfolio }\pi = -V+\delta S+B\text{ has value }\pi_0=0$$
+
+    $$\pi_{t_{n+1}^+} = \pi_{t_{n+1}^-}$$
+
+    $$B_{n+1}=B_ne^{r\Delta t}+(\delta_n-\delta_{n+1})S_{n+1}$$
+    interpretation: if $\delta_{n+1}>\delta_n$, buy $\delta_{n+1}-\delta_n$ units
+
+    if $\delta_{n+1}<\delta_n$, sell $\delta_{n+1}-\delta_n$ units
+
+    At T, liquid the portfolio which has value $$\pi_N=-V(S_N,t_N)+\delta_{N-1}S_N+B_{N-1}e^{r\Delta t}$$
+
+    \begin{itemize}
+        \item $\pi_N$ is random if it's 0, perfect hedge
+        \item $\pi_N > 0$ , profit for writer
+        \item $\pi_N > 0$ , a loss scenario 
+        \item $\pi_n$ is hedging error, we consider discounted relative $P\&L$
+         $$P\&L=\frac{e^{-rT}\pi_N}{V(S_0,0)}$$
+    \end{itemize}
+\subsection{computing delta under binomial lattice and MC pricing}
+\subsection{Delta neutral, gamma neutral, bega neutral hedging}
+    \subsubsection{Delta Neutral}
+        $\pi=\{-V, \delta S, B\}$
+        $$\frac{d\pi}{dS}=-\frac{dV}{dS}(S,t)-\delta\equiv 0$$
+
+    \subsubsection{gamma neutral}
+        $$\frac{d\pi}{dS}=\frac{d^2\pi}{dS^2}=0$$
+
+        let $$\pi=\{-V, \delta_s S,\delta_i I, B\}$$
+        $$-\frac{dV}{dS}+\delta_S+\delta_I\frac{dI}{dS}=0$$
+        $$-\frac{d^2V}{dS^2}+0+\delta_I\frac{d^2I}{dS^2}=0$$
+        hence $$di=\frac{\frac{d^2V}{dS^2}}{\frac{d^2I}{dS^2}}$$
+    
+
+\section{Models for correlated processes, generate correlated standard normal, simulate correlated process, BS PDE}
+
+    Model for correlated process: 
+    $$\frac{dS^1}{S^1}=\mu^1dt+\sigma^1dZ^1$$
+    $$\frac{dS^2}{S^2}=\mu^1dt+\sigma^2dZ^2$$
+    $$E(dZ^1dZ^2)=\rho dt$$
+
+    to generate this model, we observe $dZ^i=\phi^i\sqrt{dt}$
+    Thus we genrate 2 correlated standard normal with $$E(\phi^1 \phi^2)= \rho$$
+
+
+
+    for any any $\sum \phi^ix_i$
+
+    its mean is 0, its variance is $x^tQx$
+
+    for positive semidefinte maxtrix Q, we can $Q=G^TG, G=chol(Q)$
+
+    we generate $\phi=G^T\epsilon, \epsilon~_{iid}N(0,1)$
+
+    we can show $\phi \phi^T = Q$
+
+    \subsection{BD PDE}
+
+    assume now volatility is a $\sigma(S_t, t)$
+
+    if we construct profolio $\{V_t, -\delta_tS_t\}$ and choose $\delta_t=\frac{\delta V}{\delta S}$
+
+    then we have $\delta \pi_t = f(S_t, t)$ does not have $\phi$ term (deterministic)
+
+    and according to no arbitrage, $d\pi_t = r\pi_tdt$
+
+    thus we have PDE, lec 13
+
+ \end{document}
